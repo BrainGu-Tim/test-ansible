@@ -45,7 +45,7 @@
   hosts: app_server
   tasks:
     - git:
-        repo: 'https://foosball.example.org/path/to/repo.git'
+        repo: 'https://github.com/BrainGu-Tim/test.git'
         dest: /my_app
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
