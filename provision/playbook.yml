@@ -5,5 +5,3 @@
     name: epel
     description: EPEL YUM repo
     baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
