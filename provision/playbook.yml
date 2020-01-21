@@ -1,45 +1,37 @@
 ---
+#- name: Install Roles from Galaxy
+#  hosts: localhost
+#  connection: local
+#  become_user: "{{ local_user | default('awx') }}"
+#  become: yes
+#  tasks:
+#    - name: installing ansible-galaxy roles
+#      command: ansible-galaxy install -r requirements.yml --roles-path roles
 
-- name: Add repository
-  yum_repository:
-    name: epel
-    description: EPEL YUM repo
-    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
+- name: Install Java
+  hosts: app_server
+  become: yes
+  become_user: root
+  roles:
+    - geerlingguy.java
 
-- name: Install Python 3 and pip
-  yum:
-    name:
-      - python3
-      - python3-pip
-    state: present
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
+- name: Download Application from Repo
+  hosts: app_server
+  tasks:
+    - get_url:
+        force: yes
+        url: "{{ ARTIFACT_URL }}"
+        dest: "/tmp/{{ APP_NAME }}.war"
+    - stat: 
+        path: "/tmp/{{ APP_NAME }}.war"
 
-- name: create pip directory
-  file: >-
-    path=/root/.pip
-    state=directory
-    mode=0755
-
-- name: configure pip
-  template: >-
-    src=pip.conf
-    dest=/root/.pip/pip.conf
-    mode=0644
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
-
-- name: Download App from repo
-  git:
-    repo: 'https://github.com/BrainGu-Tim/test.git'
-    dest: /my_app
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
-
-#- name: Install pip requirements
-#  pip:
-#    requirements: /my_app/requirements.txt
-#    virtualenv: /my_app/venv
-
+- name: Setup Spring Boot
+  hosts: app_server
+  become: yes
+  become_user: root
+  roles: 
+    - { role: pellepelster.springboot-role,
+        spring_boot_file: "{{ APP_NAME }}.war",
+        spring_boot_file_source: "/tmp/{{ APP_NAME }}.war",
+        spring_boot_application_id: "{{ APP_NAME }}"
+    } 
