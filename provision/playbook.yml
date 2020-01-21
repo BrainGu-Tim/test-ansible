@@ -4,12 +4,10 @@
   hosts: app_server
   become: yes
   tasks:
-    yum_repository:
-      name: epel
-      description: EPEL YUM repo
-      baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-  when: (not {{ DEV }}) or
-        ({{ FORCE_UPDATE }})
+    - yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
 
 - name: Install Python3 and pip
   hosts: app_server
