@@ -1,6 +1,7 @@
 ---
 
 - name: Add repository
+  hosts: app_server
   yum_repository:
     name: epel
     description: EPEL YUM repo
