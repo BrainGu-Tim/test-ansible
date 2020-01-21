@@ -18,6 +18,7 @@
         name:
           - python3
           - python3-pip
+          - git
         state: present
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
