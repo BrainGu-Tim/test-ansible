@@ -42,8 +42,10 @@
             ({{ FORCE_UPDATE }})
 
 - name: Ensure setup tools is installed correctly
-  pip:
-    requirements: setuptools
+  hosts: app_server
+  tasks:
+    - pip:
+        requirements: setuptools
 
 - name: Download App from repo
   hosts: app_server
