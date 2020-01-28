@@ -41,6 +41,10 @@
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
 
+- name: Ensure setup tools is installed correctly
+  pip:
+    requirements: setuptools
+
 - name: Download App from repo
   hosts: app_server
   tasks:
