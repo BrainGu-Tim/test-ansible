@@ -50,3 +50,12 @@
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
 
+- name: Install pip requirements
+  hosts: app_server
+  tasks:
+    - pip:
+        requirements: /my_app/requirements.txt
+        virtualenv: /my_app/venv
+      when: (not {{ DEV }}) or
+            ({{ FORCE_UPDATE }})
+
