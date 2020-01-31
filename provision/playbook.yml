@@ -11,7 +11,7 @@
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
 
-- name: Install Python3 and pip3
+- name: Install Python3
   hosts: app_server
   tasks:
     - yum:
