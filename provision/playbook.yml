@@ -56,8 +56,6 @@
   tasks:
     - pip:
         virtualenv: /my_app/venv
-        #virtualenv_command: /usr/bin/python3 -m venv
-        #executable: pip3
         virtualenv_python: python3
         requirements: /my_app/requirements.txt
       when: (not {{ DEV }}) or
