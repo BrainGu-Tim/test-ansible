@@ -41,13 +41,13 @@
       when: (not {{ DEV }}) or
             ({{ FORCE_UPDATE }})
 
-- name: Ensure setup tools is installed correctly
-  hosts: app_server
-  tasks:
-    - pip:
-        virtualenv: /my_app/venv
-        virtualenv_command: /usr/bin/python3 -m venv
-        requirements: setuptools
+#- name: Ensure setup tools is installed correctly
+#  hosts: app_server
+#  tasks:
+#    - pip:
+#        virtualenv: /my_app/venv
+#        virtualenv_command: /usr/bin/python3 -m venv
+#        requirements: setuptools
 
 - name: Download App from repo
   hosts: app_server
